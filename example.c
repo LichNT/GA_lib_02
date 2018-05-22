@@ -74,14 +74,14 @@ int main(int argc, char **argv)
 	// Dump the GA results to file
 	if(mpi_rank == 0)
 	{
-		genome = ga.statistics().bestIndividual();
+		genome = ga.statistics().bestIndividual();// tra ve doi tuong thong ke trong thuat toan//tai day tra ve ca the tot nhat
 		
 		printf("task = %d \n",mpi_tasks);
 		
 		printf("rank = %d \n",mpi_rank);
 		printf("GA result:\n");
 		printf("x = %f, y = %f\n",
-			genome.phenotype(0), genome.phenotype(1));
+			genome.phenotype(0), genome.phenotype(1));// anh xa tu so nhi pha qua thap phan// lay kieu hinh duoc chi dinh
 	}
 
 	MPI_Finalize();
@@ -99,7 +99,7 @@ float objective(GAGenome &c)
 
 	// Function with local minima. The lowest is located at (5/2*PI, 5/2*PI)
 	error = ((1.-sin(x)*sin(y))+sqrt((x-M_PI*2.5)*(x-M_PI*2.5)+(y-M_PI*2.5)*(y-M_PI*2.5))/10.0)/2.5;
-
+	printf("error = %f \n",error);
 	return error;
 }
 
