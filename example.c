@@ -100,11 +100,11 @@ float objective(GAGenome &c)
 	x = genome.phenotype(0);
 	y = genome.phenotype(1);
 
- 	ofstream myfile;
-  myfile.open ("output.txt");
-  myfile << genome.phenotype(0) <<"\n";
-  myfile <<  genome.phenotype(1) <<"\n";
-  myfile.close();
+ 	
+	std::ofstream output("output.txt", std::ios::app);
+  output << genome.phenotype(0) <<"\n";
+  output <<  genome.phenotype(1) <<"\n";
+  output.close();
 	// Function with local minima. The lowest is located at (5/2*PI, 5/2*PI)
 	error = ((1.-sin(x)*sin(y))+sqrt((x-M_PI*2.5)*(x-M_PI*2.5)+(y-M_PI*2.5)*(y-M_PI*2.5))/10.0)/2.5;
 	printf("error = %f \n",error);
