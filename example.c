@@ -15,6 +15,11 @@ int main(int argc, char **argv)
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &mpi_tasks);
 	MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
+	
+	printf("mpi task :\n");
+	printf("size = %mpi_tasks \n");
+	printf("mpi rank :\n");
+	printf("size = %mpi_rank \n");
 
 	// See if we've been given a seed to use (for testing purposes).  When you
 	// specify a random seed, the evolution will be exactly the same each time
@@ -69,10 +74,7 @@ int main(int argc, char **argv)
 	if(mpi_rank == 0)
 	{
 		genome = ga.statistics().bestIndividual();
-		printf("mpi task :\n");
-		printf("size = %mpi_tasks \n");
-		printf("mpi rank :\n");
-		printf("size = %mpi_rank \n");
+		
 		printf("GA result:\n");
 		printf("x = %f, y = %f\n",
 			genome.phenotype(0), genome.phenotype(1));
