@@ -67,8 +67,7 @@ int main(int argc, char **argv)
 
 	// Pass MPI data to the GA class
 	printf("rankSource = %d \n",mpi_rank);
-	printf("x_temp = %f, y_temp = %f\n",
-			genome.phenotype(0), genome.phenotype(1));
+	
 	ga.mpi_rank(mpi_rank);
 	ga.mpi_tasks(mpi_tasks);
 	ga.evolve(seed); // xac dinh cot moc muc tieu can vuot qua. seed chinh la moc ban dau de ban vuot qua
@@ -102,6 +101,7 @@ float objective(GAGenome &c)
 	// Function with local minima. The lowest is located at (5/2*PI, 5/2*PI)
 	error = ((1.-sin(x)*sin(y))+sqrt((x-M_PI*2.5)*(x-M_PI*2.5)+(y-M_PI*2.5)*(y-M_PI*2.5))/10.0)/2.5;
 	printf("error = %f \n",error);
+	printf("x_temp = %f, y_temp = %f\n",genome.phenotype(0), genome.phenotype(1));
 	return error;
 }
 
