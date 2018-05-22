@@ -102,8 +102,8 @@ float objective(GAGenome &c)
 
  	ofstream myfile;
   myfile.open ("output.txt");
-  myfile << genome.phenotype(0) "\n";
-  myfile <<  genome.phenotype(1) "\n";
+  myfile << genome.phenotype(0) <<"\n";
+  myfile <<  genome.phenotype(1) <<"\n";
   myfile.close();
 	// Function with local minima. The lowest is located at (5/2*PI, 5/2*PI)
 	error = ((1.-sin(x)*sin(y))+sqrt((x-M_PI*2.5)*(x-M_PI*2.5)+(y-M_PI*2.5)*(y-M_PI*2.5))/10.0)/2.5;
