@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 	// popsize / mpi_tasks must be an integer
 	popsize = mpi_tasks * int((double)popsize/(double)mpi_tasks+0.999);
 	printf("popsize :\n");
-	printf("popsize = %x \n");
+	printf("popsize = %d \n");
 	// Create the phenotype for two variables.  The number of bits you can use to
 	// represent any number is limited by the type of computer you are using.
 	// For this case we use 10 bits for each var, ranging the square domain [0,5*PI]x[0,5*PI]
