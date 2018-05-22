@@ -69,8 +69,10 @@ int main(int argc, char **argv)
 	if(mpi_rank == 0)
 	{
 		genome = ga.statistics().bestIndividual();
-		printf("GA var :\n");
+		printf("mpi task :\n");
 		printf("size = %mpi_tasks \n");
+		printf("mpi rank :\n");
+		printf("size = %mpi_rank \n");
 		printf("GA result:\n");
 		printf("x = %f, y = %f\n",
 			genome.phenotype(0), genome.phenotype(1));
