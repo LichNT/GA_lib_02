@@ -38,34 +38,38 @@ int main(int argc, char **argv)
 	// Create the phenotype for two variables.  The number of bits you can use to
 	// represent any number is limited by the type of computer you are using.
 	// For this case we use 10 bits for each var, ranging the square domain [0,5*PI]x[0,5*PI]
-	GABin2DecPhenotype map;
+	GABin2DecPhenotype map;// tao kieu hinh cho cac bo nhiem sac the// giam chi phi luu tru
 	map.add(10, 0.0, 5.0 * M_PI);
 	map.add(10, 0.0, 5.0 * M_PI);
 
 	// Create the template genome using the phenotype map we just made.
-	GABin2DecGenome genome(map, objective);
+	GABin2DecGenome genome(map, objective); // khai bao nhiewm sac the //bo chuyen doi choi nhi phan qua thap phan
 
 	// Now create the GA using the genome and run it. We'll use sigma truncation
 	// scaling so that we can handle negative objective scores.
-	GASimpleGA ga(genome);
-	GALinearScaling scaling;
-	ga.minimize();		// by default we want to minimize the objective
-	ga.populationSize(popsize);
-	ga.nGenerations(ngen);
-	ga.pMutation(pmut);
-	ga.pCrossover(pcross);
-	ga.scaling(scaling);
+	GASimpleGA ga(genome); // dan so khong co tinh chong cheo
+	//GANoScaling() // khong thay doi so voi muc tieu
+
+	GALinearScaling scaling;// thay doi tuyen tinh so voi ham muc tieu
+	ga.minimize();		// by default we want to minimize the objective// thu nho qui mo quan the bang cac chi so 
+	ga.populationSize(popsize); // lay kich thuoc quan the -co the thay doi theo thoi gian 
+	ga.nGenerations(ngen); // xac dinh luong the he
+	ga.pMutation(pmut);// tao dot bien
+	ga.pCrossover(pcross); // ^cheo hoa
+	ga.scaling(scaling); // tao thu thach vao giet
 	if(mpi_rank == 0)
-		ga.scoreFilename("evolution.txt");
+		ga.scoreFilename("evolution.txt"); // ham nay khong hieu luc khi khong co...
 	else
 		ga.scoreFilename("/dev/null");
-	ga.scoreFrequency(1);
-	ga.flushFrequency(1);
-	ga.selectScores(GAStatistics::AllScores);
+	ga.scoreFrequency(1); // ghi lai diem so cua cac the he
+	ga.flushFrequency(1); // ghi lai tan suat xoa cua cac the he
+	ga.selectScores(GAStatistics::AllScores); // ghi cac diem duoc lua cho vao o dia.
+
 	// Pass MPI data to the GA class
+	printf("rankSource = %d \n",mpi_rank);
 	ga.mpi_rank(mpi_rank);
 	ga.mpi_tasks(mpi_tasks);
-	ga.evolve(seed);
+	ga.evolve(seed); // xac dinh cot moc muc tieu can vuot qua. seed chinh la moc ban dau de ban vuot qua
 
 	// Dump the GA results to file
 	if(mpi_rank == 0)

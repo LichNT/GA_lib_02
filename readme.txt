@@ -1,0 +1,8 @@
+kh?i t?o
+dân s?
+ch?n cá nhân d? giao ph?i
+k?t b?n v?i cá nhân d? t?o ra con cái
+con cái d?t bi?n
+chèn con vào dân s?
+tiêu chí d?ng th?a mãn?
+hoàn thành
