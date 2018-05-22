@@ -67,6 +67,8 @@ int main(int argc, char **argv)
 
 	// Pass MPI data to the GA class
 	printf("rankSource = %d \n",mpi_rank);
+	printf("x_temp = %f, y_temp = %f\n",
+			genome.phenotype(0), genome.phenotype(1));
 	ga.mpi_rank(mpi_rank);
 	ga.mpi_tasks(mpi_tasks);
 	ga.evolve(seed); // xac dinh cot moc muc tieu can vuot qua. seed chinh la moc ban dau de ban vuot qua
