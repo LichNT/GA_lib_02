@@ -11,33 +11,28 @@ int mpi_tasks, mpi_rank;
 
 int main(int argc, char **argv)
 {
-	// MPI init
+	//Khoi tao MPI
 	MPI_Init(&argc, &argv);
 	MPI_Comm_size(MPI_COMM_WORLD, &mpi_tasks);
 	MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 	
-	printf("mpi task :\n");
-	printf("size = %mpi_tasks \n");
-	printf("mpi rank :\n");
-	printf("size = %mpi_rank \n");
 
-	// See if we've been given a seed to use (for testing purposes).  When you
-	// specify a random seed, the evolution will be exactly the same each time
-	// you use that seed number
+	// khoi tao giong cho quan the
 	unsigned int seed = 0;
 	for(int i=1 ; i<argc ; i++)
 		if(strcmp(argv[i++],"seed") == 0)
 			seed = atoi(argv[i]);
 	
-	// Declare variables for the GA parameters and set them to some default values.
-	int popsize  = 100; // Population
-	int ngen     = 100; // Generations
-	float pmut   = 0.03;
-	float pcross = 0.65;
+	// khai bao cac bien moi truong cho quan the
+	int popsize  = 100; // so luong quan the
+	int ngen     = 100; // so luong the he
+	float pmut   = 0.03; // dot bien
+	float pcross = 0.65; // ty le chon
 
 	// popsize / mpi_tasks must be an integer
 	popsize = mpi_tasks * int((double)popsize/(double)mpi_tasks+0.999);
-
+	printf("popsize :\n");
+	printf("size = %popsize \n");
 	// Create the phenotype for two variables.  The number of bits you can use to
 	// represent any number is limited by the type of computer you are using.
 	// For this case we use 10 bits for each var, ranging the square domain [0,5*PI]x[0,5*PI]
