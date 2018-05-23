@@ -41,8 +41,8 @@ int main(int argc, char **argv)
 	// represent any number is limited by the type of computer you are using.
 	// For this case we use 10 bits for each var, ranging the square domain [0,5*PI]x[0,5*PI]
 	GABin2DecPhenotype map;// tao kieu hinh cho cac bo nhiem sac the// giam chi phi luu tru
-	map.add(10, 0.0, 5.0 * M_PI);
-	map.add(10, 0.0, 5.0 * M_PI);
+	map.add(10, 0.0, 15.0 * M_PI); // su dung 10 bit cho moi bien trong khoang [0,5*PI]x[0,5*PI]
+	map.add(10, 0.0, 15.0 * M_PI);
 
 	// Create the template genome using the phenotype map we just made.
 	GABin2DecGenome genome(map, objective); // khai bao nhiewm sac the //bo chuyen doi choi nhi phan qua thap phan
