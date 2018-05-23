@@ -6,3 +6,9 @@ con cái d?t bi?n
 chèn con vào dân s?
 tiêu chí d?ng th?a mãn?
 hoàn thành
+
+-------------
+bugs
+-------------
+mpiexec -np 4 ./example ...
+make -s

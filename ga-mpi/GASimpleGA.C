@@ -1,12 +1,3 @@
-// $Header$
-/* ----------------------------------------------------------------------------
-  gasimple.C
-  mbwall 28jul94
-  Copyright (c) 1995 Massachusetts Institute of Technology
-                     all rights reserved
-
-  Source file for the simple genetic algorithm object.
----------------------------------------------------------------------------- */
 #include <ga-mpi/GASimpleGA.h>
 #include <ga-mpi/garandom.h>
 
@@ -126,31 +117,15 @@ GASimpleGA::minimaxi(int m) {
 }
 
 
-
-
-
-
-
-
-
-
-// Initialize the population, set the random seed as needed, do a few stupidity
-// checks, reset the stats.  We must initialize the old pop because there is no
-// guarantee that each individual will get initialized during the course of our
-// operator++ operations.  We do not evaluate the old pop because that will 
-// happen as-needed later on.
 void
 GASimpleGA::initialize(unsigned int seed)
 {
   GARandomSeed(seed);
-
-  // Pass mpi_tasks and mpi_rank to the population class.
   pop->mpi_tasks(vmpi_tasks);
   pop->mpi_rank(vmpi_rank);
 
   pop->initialize();
-  pop->evaluate(gaTrue);	// the old pop will get it when the pops switch
-//  oldPop->initialize();
+  pop->evaluate(gaTrue);	
 
   stats.reset(*pop);
 
@@ -159,31 +134,21 @@ GASimpleGA::initialize(unsigned int seed)
 }
 
 
-//   Evolve a new generation of genomes.  When we start this routine, pop
-// contains the current generation.  When we finish, pop contains the new 
-// generation and oldPop contains the (no longer) current generation.  The 
-// previous old generation is lost.  We don't deallocate any memory, we just
-// reset the contents of the genomes.
-//   The selection routine must return a pointer to a genome from the old
-// population.
 void
 GASimpleGA::step()
 {
   int i, mut, c1, c2;
-  GAGenome *mom, *dad;          // tmp holders for selected genomes
+  GAGenome *mom, *dad;          
 
-  GAPopulation *tmppop;		// Swap the old population with the new pop.
-  tmppop = oldPop;		// When we finish the ++ we want the newly 
-  oldPop = pop;			// generated population to be current (for
-  pop = tmppop;			// references to it from member functions).
+  GAPopulation *tmppop;		
+  tmppop = oldPop;		
+  oldPop = pop;			
+  pop = tmppop;			
 
-// Generate the individuals in the temporary population from individuals in 
-// the main population.
-
-  for(i=0; i<pop->size()-1; i+=2){	// takes care of odd population
+  for(i=0; i<pop->size()-1; i+=2){	
     mom = &(oldPop->select());  
     dad = &(oldPop->select());
-    stats.numsel += 2;		// keep track of number of selections
+    stats.numsel += 2;		
 
     c1 = c2 = 0;
     if(GAFlipCoin(pCrossover())){
@@ -202,10 +167,10 @@ GASimpleGA::step()
 
     stats.numeval += c1 + c2;
   }
-  if(pop->size() % 2 != 0){	// do the remaining population member
+  if(pop->size() % 2 != 0){	
     mom = &(oldPop->select());  
     dad = &(oldPop->select());
-    stats.numsel += 2;		// keep track of number of selections
+    stats.numsel += 2;		
 
     c1 = 0;
     if(GAFlipCoin(pCrossover())){
@@ -224,16 +189,11 @@ GASimpleGA::step()
     stats.numeval += c1;
   }
 
-  // Pass mpi_tasks and mpi_rank to the population clas
   pop->mpi_tasks(vmpi_tasks);
   pop->mpi_rank(vmpi_rank);
 
   stats.numrep += pop->size();
-  pop->evaluate(gaTrue);	// get info about current pop for next time
-
-// If we are supposed to be elitist, carry the best individual from the old
-// population into the current population.  Be sure to check whether we are
-// supposed to minimize or maximize.
+  pop->evaluate(gaTrue);	
 
   if(minimaxi() == GAGeneticAlgorithm::MAXIMIZE) {
     if(el && oldPop->best().score() > pop->best().score())
@@ -246,5 +206,5 @@ GASimpleGA::step()
 		      GAPopulation::BEST);
   }
 
-  stats.update(*pop);		// update the statistics by one generation
+  stats.update(*pop);		
 }

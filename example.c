@@ -31,24 +31,18 @@ int main(int argc, char **argv)
 	float pmut   = 0.03; // dot bien
 	float pcross = 0.65; // ty le chon
 
-	// popsize / mpi_tasks must be an integer
 	popsize = mpi_tasks * int((double)popsize/(double)mpi_tasks+0.999);
-	printf("popsize = %d \n",popsize);
+	printf("GAsize = %d \n",popsize);
 	printf("seed = %d \n",seed);
 	printf("argc = %x \n",argc);
 	printf("argv = %s \n",*argv);
-	// Create the phenotype for two variables.  The number of bits you can use to
-	// represent any number is limited by the type of computer you are using.
-	// For this case we use 10 bits for each var, ranging the square domain [0,5*PI]x[0,5*PI]
+	
 	GABin2DecPhenotype map;// tao kieu hinh cho cac bo nhiem sac the// giam chi phi luu tru
 	map.add(10, 0.0, 15.0 * M_PI); // su dung 10 bit cho moi bien trong khoang [0,5*PI]x[0,5*PI]
 	map.add(10, 0.0, 15.0 * M_PI);
-
-	// Create the template genome using the phenotype map we just made.
+	
 	GABin2DecGenome genome(map, objective); // khai bao nhiewm sac the //bo chuyen doi choi nhi phan qua thap phan
 
-	// Now create the GA using the genome and run it. We'll use sigma truncation
-	// scaling so that we can handle negative objective scores.
 	GASimpleGA ga(genome); // dan so khong co tinh chong cheo
 	//GANoScaling() // khong thay doi so voi muc tieu
 
@@ -65,16 +59,11 @@ int main(int argc, char **argv)
 		ga.scoreFilename("/dev/null");
 	ga.scoreFrequency(1); // ghi lai diem so cua cac the he
 	ga.flushFrequency(1); // ghi lai tan suat xoa cua cac the he
-	ga.selectScores(GAStatistics::AllScores); // ghi cac diem duoc lua cho vao o dia.
-
-	// Pass MPI data to the GA class
-	printf("rankSource = %d \n",mpi_rank);
-	
+	ga.selectScores(GAStatistics::AllScores); // ghi cac diem duoc lua cho vao o dia.	
 	ga.mpi_rank(mpi_rank);
 	ga.mpi_tasks(mpi_tasks);
 	ga.evolve(seed); // xac dinh cot moc muc tieu can vuot qua. seed chinh la moc ban dau de ban vuot qua
 
-	// Dump the GA results to file
 	if(mpi_rank == 0)
 	{
 		genome = ga.statistics().bestIndividual();// tra ve doi tuong thong ke trong thuat toan//tai day tra ve ca the tot nhat
@@ -105,10 +94,10 @@ float objective(GAGenome &c)
   output << genome.phenotype(0) <<"\n";
   output <<  genome.phenotype(1) <<"\n";
   output.close();
-	// Function with local minima. The lowest is located at (5/2*PI, 5/2*PI)
+	
 	error = ((1.-sin(x)*sin(y))+sqrt((x-M_PI*2.5)*(x-M_PI*2.5)+(y-M_PI*2.5)*(y-M_PI*2.5))/10.0)/2.5;
 	printf("error = %f \n",error);
 	printf("x_temp = %f, y_temp = %f\n",genome.phenotype(0), genome.phenotype(1));
-	return 2*error;
+	return error;
 }
 
